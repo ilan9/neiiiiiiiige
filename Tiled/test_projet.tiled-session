@@ -1,0 +1,36 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "test_carte.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "test_background_neige.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "test_carte.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 642.6666666666667,
+                "y": 586.6666666666666
+            }
+        }
+    },
+    "last.imagePath": "C:/Users/ilanp/OneDrive - Université Savoie Mont Blanc/Documents/Ecole/L2/Visi301/asset",
+    "map.height": 30,
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+        "test_carte.tmx",
+        "test_background_neige.tsx"
+    ],
+    "project": "test_projet.tiled-project",
+    "recentFiles": [
+        "test_background_neige.tsx",
+        "test_carte.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
