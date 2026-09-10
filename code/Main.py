@@ -5,6 +5,7 @@ from Time import Time
 
 # Gestion de fenetre pygame
 pygame.init()
+testXXX = 0
 fenetre = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("hiver")
 
