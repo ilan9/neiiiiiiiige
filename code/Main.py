@@ -2,6 +2,9 @@ import pygame
 import pytmx #pour lire Tiled
 
 from Time import Time
+from Player import Player
+
+
 
 # Gestion de fenetre pygame
 pygame.init()
@@ -17,6 +20,7 @@ calque_nuit.fill((0,0,30))
 
 # Fenetre pygame reste ouverte
 quit = False
+player = Player() # charge le joueur
 while not quit: #Pour garder la fenetre ouverte
     for event in pygame.event.get(): #Ecouter les évenements "uniques"
         if event.type == pygame.QUIT:
@@ -26,7 +30,9 @@ while not quit: #Pour garder la fenetre ouverte
             if event.key == pygame.K_p:
                 time.changer_phase() # Cf: Time.py
 
-
+    #déplacement joueur :
+    player.update()
+    
     # Mise à jour des éléments
     time.update()
     calque_nuit.set_alpha(time.opacite)
@@ -43,6 +49,7 @@ while not quit: #Pour garder la fenetre ouverte
 
     # Dessiner la surcouche
     fenetre.blit(calque_nuit,(0,0)) # le calque de nuit
+    fenetre.blit(player.image, player.rect)
     
     police = pygame.font.Font(None, 30) #Police par default taille 30
     ecrit_phase = police.render("Phase ("+str(time.phase)+"): "+str(time.jour_etat), True, (0, 0, 0)) #Ecrit mon texte avec la couleur 0,0,0
