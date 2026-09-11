@@ -6,36 +6,39 @@ from Player import Player
 
 
 
-# Gestion de fenetre pygame
+# Gestion de window pygame
 pygame.init()
-fenetre = pygame.display.set_mode((800, 600))
+window = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("hiver")
+
+pygame.time.Clock().tick(60) # limiter a 60 fps
+
 
 tmx_data = pytmx.util_pygame.load_pygame("Tiled/test_carte.tmx") # charger la carte
 
 # Initialiser les éléments
 time = Time()
-calque_nuit = pygame.Surface((800,600))
-calque_nuit.fill((0,0,30))
+layer_night = pygame.Surface((800,600))
+layer_night.fill((0,0,30))
 
-# Fenetre pygame reste ouverte
+# window pygame reste ouverte
 quit = False
 player = Player() # charge le joueur
-while not quit: #Pour garder la fenetre ouverte
+while not quit: #Pour garder la window ouverte
     for event in pygame.event.get(): #Ecouter les évenements "uniques"
         if event.type == pygame.QUIT:
             quit = True
             # Pour quitter proprement
         elif event.type == pygame.KEYDOWN: # Detecter TOUTES les touches pressées
             if event.key == pygame.K_p:
-                time.changer_phase() # Cf: Time.py
+                time.change_phase() # Cf: Time.py
 
-    #déplacement joueur :
-    player.update()
+    
     
     # Mise à jour des éléments
+    player.update()
     time.update()
-    calque_nuit.set_alpha(time.opacite)
+    layer_night.set_alpha(time.opacity)
 
 
     # Afficher la carte
@@ -45,16 +48,16 @@ while not quit: #Pour garder la fenetre ouverte
                 pos_x = x*tmx_data.tilewidth 
                 # On multiplie leur position par leur largeur 
                 pos_y = y*tmx_data.tileheight
-                fenetre.blit(image,(pos_x,pos_y)) # On les affiche dans notre fenetre
+                window.blit(image,(pos_x,pos_y)) # On les affiche dans notre window
 
     # Dessiner la surcouche
-    fenetre.blit(calque_nuit,(0,0)) # le calque de nuit
-    fenetre.blit(player.image, player.rect)
+    window.blit(layer_night,(0,0)) # le opacite de nuit
+    window.blit(player.image, player.rect)
     
     police = pygame.font.Font(None, 30) #Police par default taille 30
-    ecrit_phase = police.render("Phase ("+str(time.phase)+"): "+str(time.jour_etat), True, (0, 0, 0)) #Ecrit mon texte avec la couleur 0,0,0
-    fenetre.blit(ecrit_phase, (330,10)) #Dessine mon texte à la position 330,10
+    text_phase = police.render("Phase ("+str(time.phase)+"): "+str(time.day_etat), True, (0, 0, 0)) #Ecrit mon texte avec la couleur 0,0,0
+    window.blit(text_phase, (330,10)) #Dessine mon texte à la position 330,10
     
     pygame.display.flip() # Met a jour l'écran
 
-pygame.quit() # fermer la fenetre pygame
+pygame.quit() # fermer la window pygame
