@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "test_background_neige.tsx",
+    "activeFile": "test_carte.tmx",
     "expandedProjectPaths": [
     ],
     "fileStates": {
@@ -12,11 +12,11 @@
             "scaleInEditor": 1
         },
         "test_carte.tmx": {
-            "scale": 0.75,
+            "scale": 0.33,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 480.66666666666663,
-                "y": 479.33333333333337
+                "x": 959.090909090909,
+                "y": 601.5151515151515
             }
         }
     },
@@ -29,8 +29,8 @@
     ],
     "project": "test_projet.tiled-project",
     "recentFiles": [
-        "test_carte.tmx",
-        "test_background_neige.tsx"
+        "test_background_neige.tsx",
+        "test_carte.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }
