@@ -1,7 +1,7 @@
 import pygame
 
 class Player(pygame.sprite.Sprite) :
-    def __init__(self):
+    def __init__(self,x,y,border_x,border_y):
         super().__init__()
         self.health = 100
         self.max_health = 100
@@ -18,8 +18,10 @@ class Player(pygame.sprite.Sprite) :
         self.rect = self.image.get_rect()
         
         #La position de départ de notre joueur :
-        self.rect.x = 50 
-        self.rect.y = 50
+        self.rect.x = x
+        self.rect.y = y
+        self.border_x = border_x
+        self.border_y = border_y
 
         # On peut l'enlever ??
     """   
@@ -46,10 +48,10 @@ class Player(pygame.sprite.Sprite) :
         if key[pygame.K_LEFT] and self.rect.x > 0 : ############ METTRE EN PARAM7TRE PLUTOT
             velocity_x -= self.velocity
                 
-        if key[pygame.K_RIGHT] and self.rect.x < 800 - self.image_width :############ METTRE EN PARAM7TRE PLUTOT
+        if key[pygame.K_RIGHT] and self.rect.x < self.border_x - self.image_width :############ METTRE EN PARAM7TRE PLUTOT
             velocity_x += self.velocity
                 
-        if key[pygame.K_DOWN] and self.rect.y < 600 - self.image_height :############ METTRE EN PARAM7TRE PLUTOT
+        if key[pygame.K_DOWN] and self.rect.y < self.border_y - self.image_height :############ METTRE EN PARAM7TRE PLUTOT
             velocity_y += self.velocity
                 
         if key[pygame.K_UP] and self.rect.y > 0 :############ METTRE EN PARAM7TRE PLUTOT
@@ -61,6 +63,7 @@ class Player(pygame.sprite.Sprite) :
         else:
             self.rect.x += velocity_x
             self.rect.y += velocity_y
+        #print((self.rect.x,self.rect.y))
 
         
         
