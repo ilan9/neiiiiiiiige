@@ -4,6 +4,8 @@ import pytmx #pour lire Tiled
 from Time import Time
 from Player import Player
 from Camera import Camera
+from Home import Home
+from Monster import Monster
 
 
 
@@ -20,14 +22,23 @@ tmx_data = pytmx.util_pygame.load_pygame("Tiled/test_carte.tmx") # charger la ca
 map_width = tmx_data.width*tmx_data.tilewidth
 map_height = tmx_data.width*tmx_data.tilewidth
 
+list_wall = []
+
+# Recuperer les objets sur la carte 
+for layer in tmx_data.objects:
+    if layer.type == "Mur":
+        list_wall.append(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
+
 # Initialiser les éléments
 time = Time()
 layer_night = pygame.Surface((window_width, window_height))
 layer_night.fill((0,0,30))
 
-player = Player(50,50,map_width,map_height) # charge le joueur
+player = Player(50,50,map_width,map_height,list_wall) # charge le joueur
 camera = Camera(map_width,map_height,window_width, window_height) # charge la camera
-print((tmx_data.width,tmx_data.tilewidth ))
+
+monster1 = Monster(130,130,list_wall)
+        
 
 # window pygame reste ouverte
 quit = False
@@ -61,6 +72,7 @@ while not quit: #Pour garder la window ouverte
     # Dessiner la surcouche
     window.blit(layer_night,(0,0)) # le opacite de nuit
     window.blit(player.image, camera.apply(player.rect.x,player.rect.y))
+    window.blit(monster1.image,camera.apply(monster1.rect.x,monster1.rect.y))
     
     police = pygame.font.Font(None, 30) #Police par default taille 30
     text_phase = police.render("Phase ("+str(time.phase)+"): "+str(time.day_etat), True, (0, 0, 0)) #Ecrit mon texte avec la couleur 0,0,0

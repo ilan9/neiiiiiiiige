@@ -1,11 +1,11 @@
 import pygame
 
 class Player(pygame.sprite.Sprite) :
-    def __init__(self,x,y,border_x,border_y):
+    def __init__(self,x,y,border_x,border_y,list_wall):
         super().__init__()
         self.health = 100
         self.max_health = 100
-        self.velocity = 1
+        self.velocity = 4
         
         image = self.image = pygame.image.load('asset/ranais.png') #L'image de notre joueur
         
@@ -22,6 +22,8 @@ class Player(pygame.sprite.Sprite) :
         self.rect.y = y
         self.border_x = border_x
         self.border_y = border_y
+
+        self.list_wall = list_wall
 
         # On peut l'enlever ??
     """   
@@ -44,6 +46,8 @@ class Player(pygame.sprite.Sprite) :
         key = pygame.key.get_pressed()
         velocity_x = 0
         velocity_y = 0
+        last_posx = self.rect.x
+        last_posy = self.rect.y
             
         if key[pygame.K_LEFT] and self.rect.x > 0 : ############ METTRE EN PARAM7TRE PLUTOT
             velocity_x -= self.velocity
@@ -65,5 +69,9 @@ class Player(pygame.sprite.Sprite) :
             self.rect.y += velocity_y
         #print((self.rect.x,self.rect.y))
 
-        
+        # test collision avec les murs, si ils se chevauche on annule le dernier mouv du joueur
+        for wall in self.list_wall:
+            if pygame.Rect.colliderect(wall,self):
+                self.rect.x = last_posx
+                self.rect.y = last_posy
         
