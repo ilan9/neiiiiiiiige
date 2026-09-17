@@ -7,16 +7,20 @@
     "expandedProjectPaths": [
     ],
     "fileStates": {
+        "maison_etplus.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
         "test_background_neige.tsx": {
             "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "test_carte.tmx": {
             "scale": 2,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 984,
-                "y": 968.75
+                "x": 972,
+                "y": 966.25
             }
         }
     },
@@ -25,13 +29,14 @@
     "map.lastUsedFormat": "tmx",
     "openFiles": [
         "test_carte.tmx",
-        "test_background_neige.tsx"
+        "test_background_neige.tsx",
+        "maison_etplus.tsx"
     ],
     "project": "test_projet.tiled-project",
     "recentFiles": [
+        "maison_etplus.tsx",
         "test_background_neige.tsx",
-        "test_carte.tmx",
-        "maison_etplus.tsx"
+        "test_carte.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.transparentColor": "#000000",
