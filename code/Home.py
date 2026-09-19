@@ -1,10 +1,11 @@
 import pygame
 
 class Home():
-    def __init__(self):
+    def __init__(self,rect:pygame.rect):
         self.life = 100
         self.life_max = 100 # en fonction du level de la maison ??
         self.level = 0
+        self.rect : pygame.rect = rect
 
     def hurt(self,damage): #Pour que la maison perde des PV
         self.life -= damage

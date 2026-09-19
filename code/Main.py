@@ -24,10 +24,12 @@ map_height = tmx_data.width*tmx_data.tilewidth
 
 list_wall = []
 
-# Recuperer les objets sur la carte 
+# Recuperer les objets sur la carte Tiled
 for layer in tmx_data.objects:
-    if layer.type == "Mur":
+    if layer.type == "Wall":
         list_wall.append(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
+    if layer.type == "Home":
+        home = Home(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
 
 # Initialiser les éléments
 time = Time()
@@ -37,7 +39,7 @@ layer_night.fill((0,0,30))
 player = Player(50,50,map_width,map_height,list_wall) # charge le joueur
 camera = Camera(map_width,map_height,window_width, window_height) # charge la camera
 
-monster1 = Monster(130,130,list_wall)
+monster1 = Monster(130,130,list_wall,home.rect)
         
 
 # window pygame reste ouverte
@@ -58,6 +60,7 @@ while not quit: #Pour garder la window ouverte
     time.update()
     layer_night.set_alpha(time.opacity)
     camera.update(player)
+    monster1.update()
 
 
     # Afficher la carte
