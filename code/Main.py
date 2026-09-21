@@ -38,9 +38,10 @@ layer_night.fill((0,0,30))
 
 player = Player(50,50,map_width,map_height,list_wall) # charge le joueur
 camera = Camera(map_width,map_height,window_width, window_height) # charge la camera
-
-monster1 = Monster(130,130,list_wall,home.rect)
-        
+group_monster = pygame.sprite.Group()
+monster1 = Monster(390,30,list_wall,home.rect)
+monster2 = Monster(130,130,list_wall,home.rect)
+group_monster.add(monster1,monster2) # Comme une liste mais les methode de monstre s'utilise direct sur group (voir update)
 
 # window pygame reste ouverte
 quit = False
@@ -60,8 +61,7 @@ while not quit: #Pour garder la window ouverte
     time.update()
     layer_night.set_alpha(time.opacity)
     camera.update(player)
-    monster1.update()
-
+    group_monster.update() # Update tous les monstre du groupe
 
     # Afficher la carte
     for layer in tmx_data.visible_layers: #C'est les couches dans Tiled
@@ -75,7 +75,8 @@ while not quit: #Pour garder la window ouverte
     # Dessiner la surcouche
     window.blit(layer_night,(0,0)) # le opacite de nuit
     window.blit(player.image, camera.apply(player.rect.x,player.rect.y))
-    window.blit(monster1.image,camera.apply(monster1.rect.x,monster1.rect.y))
+    for monster in group_monster.sprites(): # Dessiner les monstres
+        window.blit(monster.image,camera.apply(monster.rect.x,monster.rect.y))
     
     police = pygame.font.Font(None, 30) #Police par default taille 30
     text_phase = police.render("Phase ("+str(time.phase)+"): "+str(time.day_etat), True, (0, 0, 0)) #Ecrit mon texte avec la couleur 0,0,0

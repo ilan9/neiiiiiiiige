@@ -44,11 +44,11 @@ class Monster(pygame.sprite.Sprite) :
 
 
     def update(self):
-        posfin_x = self.posfin_x + self.motion_x * self.velocity
-        posfin_y = self.posfin_y + self.motion_y * self.velocity
-        self.rect.x += posfin_x/200
-        self.rect.y += posfin_y/200 # Sinon il vas beaucoup trop vite
+        self.posfin_x += self.motion_x * self.velocity #On crée ces variable temporaire car rect 
+        self.posfin_y += self.motion_y * self.velocity # ne peut pas prendre de float et ca creerai un décalage
+        self.rect.x = self.posfin_x
+        self.rect.y = self.posfin_y 
 
         if pygame.Rect.colliderect(self.rect,self.home):
             print("monstre a touché la maison")
-            self.rect.x = 10000 #Temporaire plus tard le faire attaquer ou le détruire
+            self.kill()
