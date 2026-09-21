@@ -11,6 +11,8 @@ class Home():
         self.life -= damage
         if self.life <= 0 :
             print("Défaite la maison n'as plus de vie !!")
+        else:
+            print("La maison a pris des dégats il lui reste "+str(self.life)+" PV.")
 
     def healing(self,heal): # Pour que la maison gagne des PV
         if self.life > 0:

@@ -6,6 +6,7 @@ from Player import Player
 from Camera import Camera
 from Home import Home
 from Monster import Monster
+from Spawner import monster_spawner
 
 
 
@@ -38,10 +39,8 @@ layer_night.fill((0,0,30))
 
 player = Player(50,50,map_width,map_height,list_wall) # charge le joueur
 camera = Camera(map_width,map_height,window_width, window_height) # charge la camera
-group_monster = pygame.sprite.Group()
-monster1 = Monster(390,30,list_wall,home.rect)
-monster2 = Monster(130,130,list_wall,home.rect)
-group_monster.add(monster1,monster2) # Comme une liste mais les methode de monstre s'utilise direct sur group (voir update)
+group_monster = pygame.sprite.Group()# Comme une liste mais les methode de monstre s'utilise direct sur group (voir update)
+
 
 # window pygame reste ouverte
 quit = False
@@ -51,8 +50,10 @@ while not quit: #Pour garder la window ouverte
             quit = True
             # Pour quitter proprement
         elif event.type == pygame.KEYDOWN: # Detecter TOUTES les touches pressées
-            if event.key == pygame.K_p:
+            if event.key == pygame.K_p: # Changer de phase
                 time.change_phase() # Cf: Time.py
+            elif event.key == pygame.K_m: # Faire apparaitre un monstre
+                monster_spawner(group_monster,map_width,map_height,list_wall,home)
 
     
     
@@ -81,6 +82,9 @@ while not quit: #Pour garder la window ouverte
     police = pygame.font.Font(None, 30) #Police par default taille 30
     text_phase = police.render("Phase ("+str(time.phase)+"): "+str(time.day_etat), True, (0, 0, 0)) #Ecrit mon texte avec la couleur 0,0,0
     window.blit(text_phase, (330,10)) #Dessine mon texte à la position 330,10
+
+    pv_home = police.render("Maison PV : "+str(home.life), True, (0, 0, 0)) # PV de la maison
+    window.blit(pv_home, (5,10))
     
     pygame.display.flip() # Met a jour l'écran
 

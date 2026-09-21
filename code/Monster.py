@@ -1,11 +1,11 @@
 import pygame
 
 class Monster(pygame.sprite.Sprite) :
-    def __init__(self,x,y,list_wall,home:pygame.Rect):
+    def __init__(self,x,y,list_wall,home):
         super().__init__()
         self.health = 100
         self.max_health = 100
-        self.velocity = 2
+        self.velocity = 1
         
         image = self.image = pygame.image.load('asset/zombie.png') #L'image de nos monstres
         
@@ -18,7 +18,7 @@ class Monster(pygame.sprite.Sprite) :
         self.rect = self.image.get_rect()
 
         self.list_wall = list_wall
-        self.home:pygame.Rect = home # l'objectif du monstre
+        self.home = home # l'objectif du monstre
         
         #La position de départ de notre monstre :
         self.rect.x = x
@@ -32,8 +32,8 @@ class Monster(pygame.sprite.Sprite) :
     def motion_calcul(self):# Calcul du mouvement du monstre 1 seul fois 
         posstart_x = self.rect.x
         posstart_y = self.rect.y
-        posfin_x = self.home.x
-        posfin_y = self.home.y
+        posfin_x = self.home.rect.x
+        posfin_y = self.home.rect.y
 
         distance_x = posfin_x - posstart_x
         distance_y = posfin_y - posstart_y
@@ -49,6 +49,6 @@ class Monster(pygame.sprite.Sprite) :
         self.rect.x = self.posfin_x
         self.rect.y = self.posfin_y 
 
-        if pygame.Rect.colliderect(self.rect,self.home):
-            print("monstre a touché la maison")
+        if pygame.Rect.colliderect(self.rect,self.home.rect):
+            self.home.hurt(1)
             self.kill()
