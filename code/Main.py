@@ -7,6 +7,7 @@ from Camera import Camera
 from Home import Home
 from Monster import Monster
 from Spawner import monster_spawner
+from Ressources import Ressources
 
 
 
@@ -40,7 +41,7 @@ layer_night.fill((0,0,30))
 player = Player(50,50,map_width,map_height,list_wall) # charge le joueur
 camera = Camera(map_width,map_height,window_width, window_height) # charge la camera
 group_monster = pygame.sprite.Group()# Comme une liste mais les methode de monstre s'utilise direct sur group (voir update)
-
+ressources = Ressources(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
 
 # window pygame reste ouverte
 quit = False
@@ -70,10 +71,13 @@ while not quit: #Pour garder la window ouverte
         monsters.hurt(10)
         if monsters.health < 0 :
             monsters.kill()
+            ressources.quantity += 5
+            
         
         player.hurt(5)
         if player.health < 0 :
             player.kill()
+            
 
     # Afficher la carte
     for layer in tmx_data.visible_layers: #C'est les couches dans Tiled
@@ -97,8 +101,11 @@ while not quit: #Pour garder la window ouverte
     pv_home = police.render("Maison PV : "+str(home.life), True, (0, 0, 0)) # PV de la maison
     window.blit(pv_home, (5,10))
     
-    pv_joueur = police.render("Joueur PV : "+str(player.health), True, (0, 0, 0)) # PV de la maison
+    pv_joueur = police.render("Joueur PV : "+str(player.health), True, (0, 0, 0)) # PV du joueur
     window.blit(pv_joueur, (600,10))
+    
+    texte_ressources = police.render("Ressources : "+str(ressources.quantity), True, (0, 0, 0)) # Qté de ressources
+    window.blit(texte_ressources, (600,550))
     
     pygame.display.flip() # Met a jour l'écran
 

@@ -6,7 +6,7 @@ class Monster(pygame.sprite.Sprite) :
         self.health = 10
         self.max_health = 10
         self.last_time_hit = 0 #la dernière fois que le monstre a attaqué pour la gestion des coups.
-        self.velocity = 1
+        self.velocity = 0.6
         
         image = self.image = pygame.image.load('asset/zombie.png') #L'image de nos monstres
         
