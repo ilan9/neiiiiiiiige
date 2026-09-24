@@ -3,8 +3,8 @@ import pygame
 class Player(pygame.sprite.Sprite) :
     def __init__(self,x,y,border_x,border_y,list_wall):
         super().__init__()
-        self.health = 1000
-        self.max_health = 1000
+        self.health = 500
+        self.max_health = 500
         self.last_time_hit = 0 #la dernière fois que le joueur a attaqué pour la gestion des coups.
         self.velocity = 4
         

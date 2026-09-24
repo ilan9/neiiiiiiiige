@@ -97,6 +97,9 @@ while not quit: #Pour garder la window ouverte
     pv_home = police.render("Maison PV : "+str(home.life), True, (0, 0, 0)) # PV de la maison
     window.blit(pv_home, (5,10))
     
+    pv_joueur = police.render("Joueur PV : "+str(player.health), True, (0, 0, 0)) # PV de la maison
+    window.blit(pv_joueur, (600,10))
+    
     pygame.display.flip() # Met a jour l'écran
 
 pygame.quit() # fermer la window pygame
