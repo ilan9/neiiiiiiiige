@@ -63,6 +63,17 @@ while not quit: #Pour garder la window ouverte
     layer_night.set_alpha(time.opacity)
     camera.update(player)
     group_monster.update() # Update tous les monstre du groupe
+    
+    #Potentiels dégats :
+    colliding_monsters = pygame.sprite.spritecollide(player, group_monster, False)
+    for monsters in colliding_monsters :
+        monsters.hurt(10)
+        if monsters.health < 0 :
+            monsters.kill()
+        
+        player.hurt(5)
+        if player.health < 0 :
+            player.kill()
 
     # Afficher la carte
     for layer in tmx_data.visible_layers: #C'est les couches dans Tiled

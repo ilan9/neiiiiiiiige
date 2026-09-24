@@ -3,9 +3,11 @@ import pygame
 class Player(pygame.sprite.Sprite) :
     def __init__(self,x,y,border_x,border_y,list_wall):
         super().__init__()
-        self.health = 100
-        self.max_health = 100
+        self.health = 1000
+        self.max_health = 1000
+        self.last_time_hit = 0 #la dernière fois que le joueur a attaqué pour la gestion des coups.
         self.velocity = 4
+        
         
         image = self.image = pygame.image.load('asset/ranais.png') #L'image de notre joueur
         
@@ -75,3 +77,12 @@ class Player(pygame.sprite.Sprite) :
                 self.rect.x = last_posx
                 self.rect.y = last_posy
         
+    def hurt(self, damage):
+        temps_actuel = pygame.time.get_ticks()
+    
+        cooldown = 1000 #1s entre chaque coup ????
+        
+        # On inflige des dégats à chaque cooldown.
+        #if temps_actuel - self.last_time_hit > cooldown :
+        self.health -= damage
+            #self.last_time_hit = temps_actuel

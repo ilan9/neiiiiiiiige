@@ -3,8 +3,9 @@ import pygame
 class Monster(pygame.sprite.Sprite) :
     def __init__(self,x,y,list_wall,home):
         super().__init__()
-        self.health = 100
-        self.max_health = 100
+        self.health = 10
+        self.max_health = 10
+        self.last_time_hit = 0 #la dernière fois que le monstre a attaqué pour la gestion des coups.
         self.velocity = 1
         
         image = self.image = pygame.image.load('asset/zombie.png') #L'image de nos monstres
@@ -52,3 +53,14 @@ class Monster(pygame.sprite.Sprite) :
         if pygame.Rect.colliderect(self.rect,self.home.rect):
             self.home.hurt(1)
             self.kill()
+            
+            
+    def hurt(self, damage):
+        temps_actuel = pygame.time.get_ticks()
+    
+        cooldown = 1000 #1s entre chaque coup ????
+        
+        # On inflige des dégats à chaque cooldown.
+        #if temps_actuel - self.last_time_hit > cooldown :
+        self.health -= damage
+           #self.last_time_hit = temps_actuel
