@@ -13,6 +13,12 @@ from Ressources import Ressources
 
 # Gestion de window pygame
 pygame.init()
+
+#musique :
+pygame.mixer.music.load("asset/Solar Winds Horror Atmosphere.wav")
+pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.play(-1)
+
 window_width, window_height = 800,600 
 window = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("hiver")
