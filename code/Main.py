@@ -49,6 +49,10 @@ camera = Camera(map_width,map_height,window_width, window_height) # charge la ca
 group_monster = pygame.sprite.Group()# Comme une liste mais les methode de monstre s'utilise direct sur group (voir update)
 ressources = Ressources(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
 
+last_spawn_time = 0
+base_spawn_delay = 1000
+current_spawn_delay = 1000
+
 # window pygame reste ouverte
 quit = False
 while not quit: #Pour garder la window ouverte
@@ -61,6 +65,12 @@ while not quit: #Pour garder la window ouverte
                 time.change_phase() # Cf: Time.py
             elif event.key == pygame.K_m: # Faire apparaitre un monstre
                 monster_spawner(group_monster,map_width,map_height,list_wall,home)
+                
+            elif event.key == pygame.K_r: # Soigner la maison avec les ressources.
+                if ressources.quantity >= 10 :
+                    home.healing(10)
+                    ressources.quantity -= 10
+                
 
     
     
@@ -70,6 +80,15 @@ while not quit: #Pour garder la window ouverte
     layer_night.set_alpha(time.opacity)
     camera.update(player)
     group_monster.update() # Update tous les monstre du groupe
+    
+    #GESTION DE LA PHASE NUIT ///// ICI ????
+    if time.phase % 2 == 0 :
+        current_time = pygame.time.get_ticks()
+        current_spawn_delay = base_spawn_delay / 1.1**(time.phase/2) # Une formule pour que les monstres apparaissent de plus en plus vite en avancant dans les phases.
+        
+        if last_spawn_time + current_spawn_delay <= current_time :
+            monster_spawner(group_monster,map_width,map_height,list_wall,home)
+            last_spawn_time = current_time
     
     #Potentiels dégats :
     colliding_monsters = pygame.sprite.spritecollide(player, group_monster, False)

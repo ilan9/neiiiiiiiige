@@ -51,7 +51,7 @@ class Monster(pygame.sprite.Sprite) :
         self.rect.y = self.posfin_y 
 
         if pygame.Rect.colliderect(self.rect,self.home.rect):
-            self.home.hurt(1)
+            self.home.hurt(12)
             self.kill()
             
             
