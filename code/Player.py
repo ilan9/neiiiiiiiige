@@ -72,10 +72,9 @@ class Player(pygame.sprite.Sprite) :
         #print((self.rect.x,self.rect.y))
 
         # test collision avec les murs, si ils se chevauche on annule le dernier mouv du joueur
-        for wall in self.list_wall:
-            if pygame.Rect.colliderect(wall,self):
-                self.rect.x = last_posx
-                self.rect.y = last_posy
+        if pygame.sprite.spritecollideany(self,self.list_wall):
+            self.rect.x = last_posx
+            self.rect.y = last_posy
         
     def hurt(self, damage):
         temps_actuel = pygame.time.get_ticks()

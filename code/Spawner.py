@@ -2,10 +2,10 @@ import pygame
 import random
 from Monster import Monster
 
-def monster_spawner(group_monstre, map_with, map_height,list_wall,home):
+def monster_spawner(group_monstre, map_with, map_height,list_wall,home,group_rampart):
     x = random_spawn(map_with)
     y = random_spawn(map_height)
-    monster = Monster(x,y,list_wall,home) # Creer 1 monstre
+    monster = Monster(x,y,list_wall,home,group_rampart) # Creer 1 monstre
     group_monstre.add(monster) # L'ajoute au groupe
 
 def random_spawn(max):

@@ -1,12 +1,14 @@
 import pygame
 
 class Monster(pygame.sprite.Sprite) :
-    def __init__(self,x,y,list_wall,home):
+    def __init__(self,x,y,group_wall,home, group_rampart ):
         super().__init__()
         self.health = 10
         self.max_health = 10
         self.last_time_hit = 0 #la dernière fois que le monstre a attaqué pour la gestion des coups.
         self.velocity = 0.6
+        self.degat = 1
+        self.cooldown = 1000 #1s entre chaque coup 
         
         image = self.image = pygame.image.load('asset/zombie.png') #L'image de nos monstres
         
@@ -18,8 +20,9 @@ class Monster(pygame.sprite.Sprite) :
         #Son ID_BoX ///////////
         self.rect = self.image.get_rect()
 
-        self.list_wall = list_wall
+        self.group_wall = group_wall
         self.home = home # l'objectif du monstre
+        self.group_rampart = group_rampart
         
         #La position de départ de notre monstre :
         self.rect.x = x
@@ -45,22 +48,48 @@ class Monster(pygame.sprite.Sprite) :
 
 
     def update(self):
+        last_posx = self.rect.x
+        last_posy = self.rect.y
+
         self.posfin_x += self.motion_x * self.velocity #On crée ces variable temporaire car rect 
         self.posfin_y += self.motion_y * self.velocity # ne peut pas prendre de float et ca creerai un décalage
         self.rect.x = self.posfin_x
         self.rect.y = self.posfin_y 
 
-        if pygame.Rect.colliderect(self.rect,self.home.rect):
-            self.home.hurt(12)
-            self.kill()
-            
+
+        rampart = pygame.sprite.spritecollideany(self,self.group_rampart)# SI il est dans un mur_destructible on l'attaque
+        if rampart:
+            self.attack(rampart)
+
+        if pygame.sprite.spritecollideany(self,self.group_wall):# SI il est dans un mur on le replace a sa position précédente
+            self.rect.x = last_posx
+            self.rect.y = last_posy
+            self.posfin_x = self.rect.x
+            self.posfin_y = self.rect.y
+
+
+        if pygame.sprite.collide_rect(self,self.home):
+            if self.home.life > 0:
+                self.attack(self.home)
+    
+
             
     def hurt(self, damage):
+        # Se blesse lui
         temps_actuel = pygame.time.get_ticks()
-    
-        cooldown = 1000 #1s entre chaque coup ????
         
-        # On inflige des dégats à chaque cooldown.
+        # On subit des dégats à chaque cooldown.
         #if temps_actuel - self.last_time_hit > cooldown :
         self.health -= damage
            #self.last_time_hit = temps_actuel
+    
+    def attack(self, element):
+        temps_actuel = pygame.time.get_ticks()
+        
+
+        if temps_actuel - self.last_time_hit > self.cooldown :
+            element.hurt(self.degat)
+            print(element.life)
+            self.last_time_hit = temps_actuel
+            #si il attaque il peut aussi "glisser le long du mur donc on recalcule la direction jusqu'à la maison"
+            self.motion_x,self.motion_y = self.motion_calcul()

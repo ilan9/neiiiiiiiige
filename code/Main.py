@@ -4,7 +4,7 @@ import pytmx #pour lire Tiled
 from Time import Time
 from Player import Player
 from Camera import Camera
-from Home import Home
+from Home import Home, Wall, Wall_destructible
 from Monster import Monster
 from Spawner import monster_spawner
 from Ressources import Ressources
@@ -13,6 +13,7 @@ from Ressources import Ressources
 
 # Gestion de window pygame
 pygame.init()
+debug = True
 
 #musique :
 pygame.mixer.music.load("asset/Solar Winds Horror Atmosphere.wav")
@@ -30,21 +31,30 @@ tmx_data = pytmx.util_pygame.load_pygame("Tiled/test_carte.tmx") # charger la ca
 map_width = tmx_data.width*tmx_data.tilewidth
 map_height = tmx_data.width*tmx_data.tilewidth
 
-list_wall = []
-
+group_wall = pygame.sprite.Group()
+group_wall_destructible = pygame.sprite.Group()
 # Recuperer les objets sur la carte Tiled
+
 for layer in tmx_data.objects:
     if layer.type == "Wall":
-        list_wall.append(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
+        wall = Wall(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
+        group_wall.add(wall)
     if layer.type == "Home":
         home = Home(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
+    if layer.type == "Wall_destructible":
+        print("mure cassable trouve")
+        wall_destructible = Wall_destructible(pygame.Rect(layer.x,layer.y,layer.width,layer.height),layer.name,tmx_data, group_wall)
+        group_wall_destructible.add(wall_destructible)
+        group_wall.add(wall_destructible) 
+    print(layer.type)
+        
 
 # Initialiser les éléments
 time = Time()
 layer_night = pygame.Surface((window_width, window_height))
 layer_night.fill((0,0,30))
 
-player = Player(50,50,map_width,map_height,list_wall) # charge le joueur
+player = Player(50,50,map_width,map_height,group_wall) # charge le joueur
 camera = Camera(map_width,map_height,window_width, window_height) # charge la camera
 group_monster = pygame.sprite.Group()# Comme une liste mais les methode de monstre s'utilise direct sur group (voir update)
 ressources = Ressources(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
@@ -64,12 +74,18 @@ while not quit: #Pour garder la window ouverte
             if event.key == pygame.K_p: # Changer de phase
                 time.change_phase() # Cf: Time.py
             elif event.key == pygame.K_m: # Faire apparaitre un monstre
-                monster_spawner(group_monster,map_width,map_height,list_wall,home)
+                monster_spawner(group_monster,map_width,map_height,group_wall,home,group_wall_destructible)
                 
             elif event.key == pygame.K_r: # Soigner la maison avec les ressources.
                 if ressources.quantity >= 10 :
                     home.healing(10)
                     ressources.quantity -= 10
+
+            elif event.key == pygame.K_w: # Soigner les murs avec les ressources.
+                            if ressources.quantity >= 10 :
+                                for rampart in group_wall_destructible:
+                                    rampart.healing(2)
+                                ressources.quantity -= 10
                 
 
     
@@ -87,7 +103,7 @@ while not quit: #Pour garder la window ouverte
         current_spawn_delay = base_spawn_delay / 1.1**(time.phase/2) # Une formule pour que les monstres apparaissent de plus en plus vite en avancant dans les phases.
         
         if last_spawn_time + current_spawn_delay <= current_time :
-            monster_spawner(group_monster,map_width,map_height,list_wall,home)
+            monster_spawner(group_monster,map_width,map_height,group_wall,home, group_wall_destructible)
             last_spawn_time = current_time
     
     #Potentiels dégats :
@@ -112,6 +128,7 @@ while not quit: #Pour garder la window ouverte
                 # On multiplie leur position par leur largeur 
                 pos_y = y*tmx_data.tileheight
                 window.blit(image,camera.apply(pos_x,pos_y)) # On les affiche dans notre window
+                
 
     # Dessiner la surcouche
     window.blit(layer_night,(0,0)) # le opacite de nuit
@@ -125,6 +142,14 @@ while not quit: #Pour garder la window ouverte
 
     pv_home = police.render("Maison PV : "+str(home.life), True, (0, 0, 0)) # PV de la maison
     window.blit(pv_home, (5,10))
+
+    #PV mur
+    y = 50
+    for rampart in group_wall_destructible:
+        if rampart.life > 0:
+            pv_wall = police.render(rampart.name+" PV : "+str(rampart.life), True, (0, 0, 0))
+            window.blit(pv_wall, (5,y))
+            y += 25
     
     pv_joueur = police.render("Joueur PV : "+str(player.health), True, (0, 0, 0)) # PV du joueur
     window.blit(pv_joueur, (600,10))
