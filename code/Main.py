@@ -20,7 +20,7 @@ pygame.mixer.music.load("asset/Solar Winds Horror Atmosphere.wav")
 pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play(-1)
 
-window_width, window_height = 1300,800 
+window_width, window_height = 1100,600 
 window = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("hiver")
 

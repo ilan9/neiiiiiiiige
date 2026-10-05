@@ -174,10 +174,10 @@
   <object id="74" name="Home" type="Home" x="753.606" y="961.848" width="314.667" height="266.439" rotation="-21"/>
  </objectgroup>
  <group id="8" name="Wall_destructible">
-  <objectgroup id="7" name="Wall_nord" class="Wall_destructible">
-   <object id="75" name="Wall_nord" type="Wall_destructible" x="671.75" y="744.75" width="512.25" height="14"/>
+  <objectgroup id="7" name="North_Wall" class="Wall_destructible">
+   <object id="75" name="Mur Nord" type="Wall_destructible" x="671.75" y="744.75" width="512.25" height="14"/>
   </objectgroup>
-  <layer id="10" name="Wall_East" class="Wall_destructible" width="64" height="64">
+  <layer id="10" name="Mur Est" class="Wall_destructible" width="64" height="64">
    <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -245,13 +245,13 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
   </layer>
-  <objectgroup id="11" name="Wall_East" class="Wall_destructible">
-   <object id="76" name="Wall_East" type="Wall_destructible" x="1193.5" y="745.5" width="12.5" height="503"/>
+  <objectgroup id="11" name="East_Wall" class="Wall_destructible">
+   <object id="76" name="Mur Est" type="Wall_destructible" x="1193.5" y="745.5" width="12.5" height="503"/>
   </objectgroup>
-  <objectgroup id="13" name="Wall_South" class="Wall_destructible">
-   <object id="77" name="Wall_South" type="Wall_destructible" x="671.333" y="1250.67" width="529.333" height="22"/>
+  <objectgroup id="13" name="South_Wall" class="Wall_destructible">
+   <object id="77" name="Mur Sud" type="Wall_destructible" x="671.333" y="1250.67" width="529.333" height="22"/>
   </objectgroup>
-  <layer id="9" name="Wall_nord" class="Wall_destructible" width="64" height="64" tintcolor="#c87bba">
+  <layer id="9" name="Mur Nord" class="Wall_destructible" width="64" height="64" tintcolor="#c87bba">
    <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -319,10 +319,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
   </layer>
-  <objectgroup id="15" name="Wall_West" class="Wall_destructible">
-   <object id="78" name="Wall_West" type="Wall_destructible" x="650" y="746" width="14.6667" height="525.333"/>
+  <objectgroup id="15" name="West_Wall" class="Wall_destructible">
+   <object id="78" name="Mur Ouest" type="Wall_destructible" x="650" y="746" width="14.6667" height="525.333"/>
   </objectgroup>
-  <layer id="14" name="Wall_West" class="Wall_destructible" width="64" height="64">
+  <layer id="14" name="Mur Ouest" class="Wall_destructible" width="64" height="64">
    <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -390,7 +390,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
   </layer>
-  <layer id="12" name="Wall_South" class="Wall_destructible" width="64" height="64">
+  <layer id="12" name="Mur Sud" class="Wall_destructible" width="64" height="64">
    <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
