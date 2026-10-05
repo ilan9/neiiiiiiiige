@@ -82,11 +82,13 @@ while not quit: #Pour garder la window ouverte
                     ressources.quantity -= 10
 
             elif event.key == pygame.K_w: # Soigner les murs avec les ressources.
-                            if ressources.quantity >= 10 :
-                                for rampart in group_wall_destructible:
-                                    rampart.healing(2)
-                                ressources.quantity -= 10
+                if ressources.quantity >= 10 :
+                    for rampart in group_wall_destructible:
+                        rampart.healing(2)
+                    ressources.quantity -= 10
                 
+            elif event.key == pygame.K_F11: #Mettre en plein écran
+                pygame.display.toggle_fullscreen()
 
     
     
