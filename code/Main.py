@@ -20,7 +20,7 @@ pygame.mixer.music.load("asset/Solar Winds Horror Atmosphere.wav")
 pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play(-1)
 
-window_width, window_height = 800,600 
+window_width, window_height = 1300,800 
 window = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("hiver")
 
@@ -155,7 +155,7 @@ while not quit: #Pour garder la window ouverte
     window.blit(pv_joueur, (600,10))
     
     texte_ressources = police.render("Ressources : "+str(ressources.quantity), True, (0, 0, 0)) # Qté de ressources
-    window.blit(texte_ressources, (600,550))
+    window.blit(texte_ressources, (window_width-200,window_height-50))
     
     pygame.display.flip() # Met a jour l'écran
 
