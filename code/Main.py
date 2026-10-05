@@ -8,6 +8,7 @@ from Home import Home, Wall, Wall_destructible
 from Monster import Monster
 from Spawner import monster_spawner
 from Ressources import Ressources
+from Defense import Canon
 
 
 
@@ -33,6 +34,7 @@ map_height = tmx_data.width*tmx_data.tilewidth
 
 group_wall = pygame.sprite.Group()
 group_wall_destructible = pygame.sprite.Group()
+
 # Recuperer les objets sur la carte Tiled
 
 for layer in tmx_data.objects:
@@ -57,7 +59,11 @@ layer_night.fill((0,0,30))
 player = Player(50,50,map_width,map_height,group_wall) # charge le joueur
 camera = Camera(map_width,map_height,window_width, window_height) # charge la camera
 group_monster = pygame.sprite.Group()# Comme une liste mais les methode de monstre s'utilise direct sur group (voir update)
+defense_group = pygame.sprite.Group()
 ressources = Ressources(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
+
+canon_test = Canon(650, 700, 100)
+defense_group.add(canon_test)
 
 last_spawn_time = 0
 base_spawn_delay = 1000
@@ -98,11 +104,12 @@ while not quit: #Pour garder la window ouverte
     layer_night.set_alpha(time.opacity)
     camera.update(player)
     group_monster.update() # Update tous les monstre du groupe
+    defense_group.update()
     
     #GESTION DE LA PHASE NUIT ///// ICI ????
     if time.phase % 2 == 0 :
         current_time = pygame.time.get_ticks()
-        current_spawn_delay = base_spawn_delay / 1.1**(time.phase/2)*1000 # Une formule pour que les monstres apparaissent de plus en plus vite en avancant dans les phases.
+        current_spawn_delay = base_spawn_delay / 1.1**(time.phase/2) # Une formule pour que les monstres apparaissent de plus en plus vite en avancant dans les phases.
         
         if last_spawn_time + current_spawn_delay <= current_time :
             monster_spawner(group_monster,map_width,map_height,group_wall,home, group_wall_destructible)
@@ -137,6 +144,9 @@ while not quit: #Pour garder la window ouverte
     window.blit(player.image, camera.apply(player.rect.x,player.rect.y))
     for monster in group_monster.sprites(): # Dessiner les monstres
         window.blit(monster.image,camera.apply(monster.rect.x,monster.rect.y))
+    
+    for defense in defense_group.sprites():
+        window.blit(defense.image, camera.apply(defense.rect.x, defense.rect.y))
     
     police = pygame.font.Font(None, 30) #Police par default taille 30
     text_phase = police.render("Phase ("+str(time.phase)+"): "+str(time.day_phase), True, (0, 0, 0)) #Ecrit mon texte avec la couleur 0,0,0
