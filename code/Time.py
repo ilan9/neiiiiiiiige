@@ -12,7 +12,7 @@ class Time:
 
         self.phase = 1
         self.day = self.phase % 2 == 1  # day = True si phase impair sinon nuit
-        self.day_etat = "Jour" #Chaine de caractère day ou nuit
+        self.day_phase = "Jour" #Chaine de caractère day ou nuit
 
 
     def change_phase(self):
@@ -20,9 +20,9 @@ class Time:
         self.day = self.phase % 2 == 1 
         if self.day:
             self.opacity = 0
-            self.day_etat = "Jour"
+            self.day_phase = "Jour"
         else:
-            self.day_etat = "Nuit"
+            self.day_phase = "Nuit"
             self.opacity = 150
 
     def update(self):

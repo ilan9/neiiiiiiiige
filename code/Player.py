@@ -77,11 +77,11 @@ class Player(pygame.sprite.Sprite) :
             self.rect.y = last_posy
         
     def hurt(self, damage):
-        temps_actuel = pygame.time.get_ticks()
+        actual_time = pygame.time.get_ticks()
     
         cooldown = 1000 #1s entre chaque coup ????
         
         # On inflige des dégats à chaque cooldown.
-        #if temps_actuel - self.last_time_hit > cooldown :
+        #if actual_time - self.last_time_hit > cooldown :
         self.health -= damage
-            #self.last_time_hit = temps_actuel
+            #self.last_time_hit = actual_time

@@ -102,7 +102,7 @@ while not quit: #Pour garder la window ouverte
     #GESTION DE LA PHASE NUIT ///// ICI ????
     if time.phase % 2 == 0 :
         current_time = pygame.time.get_ticks()
-        current_spawn_delay = base_spawn_delay / 1.1**(time.phase/2) # Une formule pour que les monstres apparaissent de plus en plus vite en avancant dans les phases.
+        current_spawn_delay = base_spawn_delay / 1.1**(time.phase/2)*1000 # Une formule pour que les monstres apparaissent de plus en plus vite en avancant dans les phases.
         
         if last_spawn_time + current_spawn_delay <= current_time :
             monster_spawner(group_monster,map_width,map_height,group_wall,home, group_wall_destructible)
@@ -139,10 +139,10 @@ while not quit: #Pour garder la window ouverte
         window.blit(monster.image,camera.apply(monster.rect.x,monster.rect.y))
     
     police = pygame.font.Font(None, 30) #Police par default taille 30
-    text_phase = police.render("Phase ("+str(time.phase)+"): "+str(time.day_etat), True, (0, 0, 0)) #Ecrit mon texte avec la couleur 0,0,0
+    text_phase = police.render("Phase ("+str(time.phase)+"): "+str(time.day_phase), True, (0, 0, 0)) #Ecrit mon texte avec la couleur 0,0,0
     window.blit(text_phase, (330,10)) #Dessine mon texte à la position 330,10
 
-    pv_home = police.render("Maison PV : "+str(home.life), True, (0, 0, 0)) # PV de la maison
+    pv_home = police.render("PV Maison : "+str(home.life), True, (0, 0, 0)) # PV de la maison
     window.blit(pv_home, (5,10))
 
     #PV mur
@@ -153,7 +153,7 @@ while not quit: #Pour garder la window ouverte
             window.blit(pv_wall, (5,y))
             y += 25
     
-    pv_joueur = police.render("Joueur PV : "+str(player.health), True, (0, 0, 0)) # PV du joueur
+    pv_joueur = police.render("PV Joueur : "+str(player.health), True, (0, 0, 0)) # PV du joueur
     window.blit(pv_joueur, (600,10))
     
     texte_ressources = police.render("Ressources : "+str(ressources.quantity), True, (0, 0, 0)) # Qté de ressources
