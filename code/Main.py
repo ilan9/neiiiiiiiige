@@ -95,6 +95,9 @@ while not quit: #Pour garder la window ouverte
                 
             elif event.key == pygame.K_F11: #Mettre en plein écran
                 pygame.display.toggle_fullscreen()
+                
+            elif event.key == pygame.K_t :
+                canon_test.tirer()
 
     
     
