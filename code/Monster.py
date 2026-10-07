@@ -1,4 +1,5 @@
 import pygame
+from Outils import decoup_image
 
 class Monster(pygame.sprite.Sprite) :
     def __init__(self,x,y,group_wall,home, group_rampart ):
@@ -11,11 +12,21 @@ class Monster(pygame.sprite.Sprite) :
         self.cooldown = 1000 #1s entre chaque coup 
         
         image = self.image = pygame.image.load('asset/zombie.png') #L'image de nos monstres
+
+        #Animations
+        self.anim = {"walk":decoup_image("asset/zombie_animation/Zombie_Default_Walk.png",384,64,6,1),
+                     "attack":decoup_image("asset/zombie_animation/Zombie_Default_Attack.png",384,64,6,1),
+                     "hurt":decoup_image("asset/zombie_animation/Zombie_Default_Hurt.png",384,64,6,1),
+                     "dead":decoup_image("asset/zombie_animation/Zombie_Default_Dead.png",384,64,6,1)
+                     }
+        self.image = self.anim["walk"][0]
         
         #La taille du monstre :
-        self.image_height = 84/1.5
-        self.image_width = 72/1.5
-        self.image = pygame.transform.scale(image, (self.image_width, self.image_height)) 
+        self.image_height = 64 * 1.5
+        self.image_width = 384/6 * 1.5
+        self.image = pygame.transform.scale(self.image, (self.image_width, self.image_height))
+        self.anim_time = 1000/6
+        self.anim_type = "walk"
         
         #Son ID_BoX ///////////
         self.rect = self.image.get_rect()
@@ -54,12 +65,14 @@ class Monster(pygame.sprite.Sprite) :
         self.posfin_x += self.motion_x * self.velocity #On crée ces variable temporaire car rect 
         self.posfin_y += self.motion_y * self.velocity # ne peut pas prendre de float et ca creerai un décalage
         self.rect.x = self.posfin_x
-        self.rect.y = self.posfin_y 
+        self.rect.y = self.posfin_y
+        self.anim_type = "walk"
 
 
         rampart = pygame.sprite.spritecollideany(self,self.group_rampart)# SI il est dans un mur_destructible on l'attaque
         if rampart:
             self.attack(rampart)
+            
 
         if pygame.sprite.spritecollideany(self,self.group_wall):# SI il est dans un mur on le replace a sa position précédente
             self.rect.x = last_posx
