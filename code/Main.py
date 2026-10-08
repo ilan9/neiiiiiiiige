@@ -44,23 +44,23 @@ for layer in tmx_data.objects:
     if layer.type == "Home":
         home = Home(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
     if layer.type == "Wall_destructible":
-        print("mure cassable trouve")
-        wall_destructible = Wall_destructible(pygame.Rect(layer.x,layer.y,layer.width,layer.height),layer.name,tmx_data, group_wall)
+        wall_destructible = Wall_destructible(pygame.Rect(layer.x,layer.y,layer.width,layer.height),layer.name,tmx_data, group_wall, group_wall_destructible)
         group_wall_destructible.add(wall_destructible)
         group_wall.add(wall_destructible) 
-    print(layer.type)
         
 
 # Initialiser les éléments
 time = Time()
-layer_night = pygame.Surface((window_width, window_height))
+layer_night = pygame.Surface((window_width*2, window_height*2)) #Obligé de mettre *2 pour le mode fullscreen 
 layer_night.fill((0,0,30))
 
-player = Player(50,50,map_width,map_height,group_wall) # charge le joueur
+
 camera = Camera(map_width,map_height,window_width, window_height) # charge la camera
 group_monster = pygame.sprite.Group()# Comme une liste mais les methode de monstre s'utilise direct sur group (voir update)
 defense_group = pygame.sprite.Group()
-ressources = Ressources(pygame.Rect(layer.x,layer.y,layer.width,layer.height))
+
+player = Player(50,50,map_width,map_height,group_wall,group_monster) # charge le joueur
+ressources = Ressources()
 
 canon_test = Canon(650, 700, 100)
 defense_group.add(canon_test)
@@ -80,7 +80,7 @@ while not quit: #Pour garder la window ouverte
             if event.key == pygame.K_p: # Changer de phase
                 time.change_phase() # Cf: Time.py
             elif event.key == pygame.K_m: # Faire apparaitre un monstre
-                monster_spawner(group_monster,map_width,map_height,group_wall,home,group_wall_destructible)
+                monster_spawner(group_monster,map_width,map_height,group_wall,home,group_wall_destructible, ressources)
                 
             elif event.key == pygame.K_r: # Soigner la maison avec les ressources.
                 if ressources.quantity >= 10 :
@@ -115,21 +115,10 @@ while not quit: #Pour garder la window ouverte
         current_spawn_delay = base_spawn_delay / 1.1**(time.phase/2) # Une formule pour que les monstres apparaissent de plus en plus vite en avancant dans les phases.
         
         if last_spawn_time + current_spawn_delay <= current_time :
-            monster_spawner(group_monster,map_width,map_height,group_wall,home, group_wall_destructible)
+            monster_spawner(group_monster,map_width,map_height,group_wall,home, group_wall_destructible, ressources)
             last_spawn_time = current_time
     
-    #Potentiels dégats :
-    colliding_monsters = pygame.sprite.spritecollide(player, group_monster, False)
-    for monsters in colliding_monsters :
-        monsters.hurt(10)
-        if monsters.health < 0 :
-            monsters.kill()
-            ressources.quantity += 5
-            
-        
-        player.hurt(5)
-        if player.health < 0 :
-            player.kill()
+    
             
 
     # Afficher la carte

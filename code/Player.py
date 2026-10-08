@@ -1,13 +1,16 @@
 import pygame
 
 class Player(pygame.sprite.Sprite) :
-    def __init__(self,x,y,border_x,border_y,list_wall):
+    def __init__(self,x,y,border_x,border_y,list_wall, group_monster):
         super().__init__()
         self.health = 500
         self.max_health = 500
         self.last_time_hit = 0 #la dernière fois que le joueur a attaqué pour la gestion des coups.
+        self.cooldown = 1000
         self.velocity = 4
-        
+        self.damage = 5
+
+        self.monster_atq = {}
         
         image = self.image = pygame.image.load('asset/ranais.png') #L'image de notre joueur
         
@@ -25,25 +28,10 @@ class Player(pygame.sprite.Sprite) :
         self.border_x = border_x
         self.border_y = border_y
 
+        self.group_monster = group_monster
         self.list_wall = list_wall
 
-        # On peut l'enlever ??
-    """   
-    def update(self) :
-        key = pygame.key.get_pressed()
-        
-        if key[pygame.K_LEFT] and self.rect.x > 0 : ############ METTRE EN PARAM7TRE PLUTOT
-            self.rect.x -= self.velocity
-            
-        if key[pygame.K_RIGHT] and self.rect.x < 800 - self.image_width :############ METTRE EN PARAM7TRE PLUTOT
-            self.rect.x += self.velocity
-            
-        if key[pygame.K_DOWN] and self.rect.y < 600 - self.image_height :############ METTRE EN PARAM7TRE PLUTOT
-            self.rect.y += self.velocity
-            
-        if key[pygame.K_UP] and self.rect.y > 0 :############ METTRE EN PARAM7TRE PLUTOT
-            self.rect.y -= self.velocity 
-    """      
+
     def update(self) :
         key = pygame.key.get_pressed()
         velocity_x = 0
@@ -75,13 +63,35 @@ class Player(pygame.sprite.Sprite) :
         if pygame.sprite.spritecollideany(self,self.list_wall):
             self.rect.x = last_posx
             self.rect.y = last_posy
+
+        # Attaquer les monstres
+        self.attack_monster()
+            
+    def attack_monster(self):
+        colliding_monsters = pygame.sprite.spritecollide(self, self.group_monster, False)
+        for monster in colliding_monsters :
+            #On attaque le monstre qu'une fois par seconde
+            if monster in self.monster_atq:
+                if pygame.time.get_ticks() - self.monster_atq[monster] > self.cooldown:
+                    self.monster_atq.pop(monster)
+            else:
+                monster.hurt(self.damage)
+                self.hurt(5) # Le joueur prends des dégats si il attaque le monstre
+                self.monster_atq[monster] = pygame.time.get_ticks()
+                print("attq subie") 
+
+
+    def attack_1_persecond(self, element): # PAs utilisé pour l'instant
+        actual_time = pygame.time.get_ticks()
+        if actual_time - self.last_time_hit > self.cooldown :
+            element.hurt(self.damage)
+            self.last_time_hit = actual_time
         
     def hurt(self, damage):
-        actual_time = pygame.time.get_ticks()
-    
-        cooldown = 1000 #1s entre chaque coup ????
-        
-        # On inflige des dégats à chaque cooldown.
-        #if actual_time - self.last_time_hit > cooldown :
         self.health -= damage
-            #self.last_time_hit = actual_time
+        if self.health <= 0:
+            self.dead()
+    
+    def dead(self):
+        print("Le joueur est mort !!!")
+        # Respawn dans 30 sec ??
