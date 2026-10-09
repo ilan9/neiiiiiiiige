@@ -12,26 +12,11 @@ class Monster(pygame.sprite.Sprite) :
         self.cooldown = 1000 #1s entre chaque coup 
         
         image = self.image = pygame.image.load('asset/zombie.png') #L'image de nos monstres
-
-        #Animations
-        self.anim = {"walk":decoup_image("asset/zombie_animation/Zombie_Default_Walk.png",384,64,6,1),
-                     "attack":decoup_image("asset/zombie_animation/Zombie_Default_Attack.png",384,64,6,1),
-                     "hurt":decoup_image("asset/zombie_animation/Zombie_Default_Hurt.png",384,64,6,1),
-                     "dead":decoup_image("asset/zombie_animation/Zombie_Default_Dead.png",384,64,6,1)
-                     }
-        
-        
+    
         #La taille du monstre :
         self.image_height = 64 * 1.5
         self.image_width = 384/6 * 1.5
         self.image = pygame.transform.scale(self.image, (self.image_width, self.image_height))
-
-        self.anim_time = 0
-        self.cooldown_anim = 1000/6
-        self.anim_type = "walk"
-        self.anmimation_in_progress = False
-        self.anim_progress = 0
-        self.image = self.anim[self.anim_type][self.anim_progress]
         
         #Son ID_BoX ///////////
         self.rect = self.image.get_rect()
@@ -48,7 +33,22 @@ class Monster(pygame.sprite.Sprite) :
         self.posfin_x = x # Pour le calcul du mouvement car rect ne peut stocker que des int 
         self.posfin_y = y
 
-        
+
+        #Animations
+        reverse = self.motion_x > 0 # Pour l'orientation de l'image
+        self.anim = {"walk":decoup_image("asset/zombie_animation/Zombie_Default_Walk.png",384,64,6,1,reverse),
+                     "attack":decoup_image("asset/zombie_animation/Zombie_Default_Attack.png",384,64,6,1,reverse),
+                     "hurt":decoup_image("asset/zombie_animation/Zombie_Default_Hurt.png",384,64,6,1, reverse),
+                     "dead":decoup_image("asset/zombie_animation/Zombie_Default_Dead.png",384,64,6,1,reverse)
+                     }
+
+        self.anim_time = 0
+        self.cooldown_anim = 1000/6
+        self.anim_type = "walk"
+        self.anmimation_in_progress = False
+        self.anim_progress = 0
+        self.image = self.anim[self.anim_type][self.anim_progress]
+
 
     def motion_calcul(self):# Calcul du mouvement du monstre 1 seul fois 
         posstart_x = self.rect.x
@@ -65,6 +65,7 @@ class Monster(pygame.sprite.Sprite) :
 
 
     def update(self):
+
         if self.anim_type != "hurt" and self.anim_type != "dead": #Si il subit des dégats ou si il meurt, il arrete momentanément de bouger
             last_posx = self.rect.x
             last_posy = self.rect.y
@@ -147,4 +148,6 @@ class Monster(pygame.sprite.Sprite) :
                 else:
                     self.anim_progress +=1
                 self.anim_time = pygame.time.get_ticks()
+        if self.anim_type == "hurt":
+            print (self.anim_progress)
         self.image = self.anim[self.anim_type][self.anim_progress]

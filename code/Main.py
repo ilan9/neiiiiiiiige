@@ -59,7 +59,7 @@ camera = Camera(map_width,map_height,window_width, window_height) # charge la ca
 group_monster = pygame.sprite.Group()# Comme une liste mais les methode de monstre s'utilise direct sur group (voir update)
 defense_group = pygame.sprite.Group()
 
-player = Player(50,50,map_width,map_height,group_wall,group_monster) # charge le joueur
+player = Player(50,50,map_width,map_height,group_wall,group_monster,group_wall_destructible) # charge le joueur
 ressources = Ressources()
 
 canon_test = Canon(650, 700, 100)
